@@ -20,7 +20,11 @@ enum Parser {
 
   /// Each model class must add annotation '@jsonSerializable'
   /// For more detail, please visit 'https://github.com/k-paxian/dart-json-mapper'
-  DartJsonMapper
+  DartJsonMapper,
+
+  /// Each protobuf dart model class must provide mergeFromProto3Json(Map<String, dynamic> json)
+  /// For more detail, please visit https://github.com/dart-lang/protobuf/issues/220
+  MergeFromProto3Json,
 }
 
 /// Define an API.

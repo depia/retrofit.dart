@@ -426,6 +426,9 @@ class RetrofitGenerator extends GeneratorForAnnotation<retrofit.RestApi> {
               blocks.add(Code(
                   "var value = $_resultVar.data.map((dynamic i) => JsonMapper.deserialize<$innerReturnType>(i as Map<String,dynamic>)).toList();"));
               break;
+            case retrofit.Parser.MergeFromProto3Json:
+              throw Exception("Support MergeFromProto3Json in this case!");
+              break;
           }
         }
       } else if (_typeChecker(Map).isExactlyType(returnType) ||
@@ -469,6 +472,8 @@ class RetrofitGenerator extends GeneratorForAnnotation<retrofit.RestApi> {
               );
             """));
                 break;
+              case retrofit.Parser.MergeFromProto3Json:
+                throw Exception("Support MergeFromProto3Json in this case!");
             }
           } else if (!_isBasicType(secondType)) {
             switch (clientAnnotation.parser) {
@@ -488,6 +493,8 @@ class RetrofitGenerator extends GeneratorForAnnotation<retrofit.RestApi> {
               );
             """));
                 break;
+              case retrofit.Parser.MergeFromProto3Json:
+                throw Exception("Support MergeFromProto3Json in this case!");
             }
           }
         } else {
@@ -525,6 +532,11 @@ class RetrofitGenerator extends GeneratorForAnnotation<retrofit.RestApi> {
             case retrofit.Parser.DartJsonMapper:
               blocks.add(Code(
                   "final value = JsonMapper.deserialize<$returnType>($_resultVar.data);"));
+              break;
+            case retrofit.Parser.MergeFromProto3Json:
+              blocks.add(Code("""
+          final value = $returnType();
+          value.mergeFromProto3Json($_resultVar.data);"""));
               break;
           }
         }
